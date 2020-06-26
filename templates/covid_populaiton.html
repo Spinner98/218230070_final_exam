@@ -1,0 +1,147 @@
+<!doctype html>
+<html>
+<head>
+    <meta charset="utf-8">
+    <title>218230070_코로나현황</title>
+</head>
+<body>
+<a href="{% url 'home' %}">Return to homepage</a>
+    <div id="container"></div>
+    <script src="https://code.highcharts.com/highcharts.src.js"></script>
+    <script>
+        Highcharts.chart('container', {
+            chart: {
+                type: 'spline'
+            },
+            rangeSelector: {
+            selected: 1
+             },
+            title: {
+                text: 'COVID-19 인구대비 현황'
+            },
+            xAxis: {
+                type:'datetime',
+                categories: {{ date|safe }},
+                 range: 1 * 30 * 24 * 3600 * 10
+
+
+
+            /* safe 필터 */
+            },
+            legend:{
+                symbolHeight: 5
+
+            },
+            yAxis: {
+                 title: {
+            text: '인구대비 발생율'},
+            labels: {
+                format: '{value} 건/ 백만명',
+                    style : {color : 'blue'}
+
+            },
+            },
+            plotOptions: {
+        series: {
+            label :{
+                 connectorAllowed: false
+            },
+            marker: {enabled: false
+            },
+        }
+    },
+
+            series: [{
+                name: 'US',
+                data: {{ US}},
+        tooltip: {
+                valueDecimals: 2
+            },
+        lineWidth: 5,
+                marker:{
+                  symbol : 'triangle',
+                      fillColor:'green',
+                        lineColor :'green'
+                },
+                color: 'green'
+
+            }, {
+                name: 'Germany',
+                data: {{ Germany }},
+            tooltip: {
+                valueDecimals: 2
+            },
+            lineWidth: 5,
+            marker:{
+                  symbol : 'circle',
+                      fillColor:'orange',
+                        lineColor :'ornage'
+                },
+                color: 'orange'
+
+            },
+         {
+                name: 'SouthKorea',
+                data: {{ SouthKorea }},
+             tooltip: {
+                valueDecimals: 2
+            },
+             lineWidth: 5,
+             marker:{
+                  symbol : 'diamond',
+                      fillColor:'red',
+                        lineColor :'red'
+                },
+
+                color: 'red'
+
+            },
+         {
+                name: 'France',
+                data: {{ France }},
+             tooltip: {
+                valueDecimals: 2
+            },
+             lineWidth: 5,
+             marker:{
+                  symbol : 'square',
+                      fillColor:'blue',
+                        lineColor :'blue'
+                },
+                color: 'blue'
+
+            },
+         {
+                name: 'UnitedKingdom',
+                data: {{ UnitedKingdom }},
+             tooltip: {
+                valueDecimals: 2
+            },
+             lineWidth: 5,
+                marker:{
+                  symbol : 'triangle-down',
+                      fillColor:'yellow',
+                        lineColor :'yellow'
+                },
+                color: 'yellow'
+
+            }],
+            responsive: {
+        rules: [{
+            condition: {
+                maxWidth: 500
+            },
+            chartOptions: {
+                legend: {
+                    layout: 'horizontal',
+                    align: 'center',
+                    verticalAlign: 'bottom'
+                }
+            }
+        }]
+    },
+        });
+    </script>
+
+</body>
+</html>

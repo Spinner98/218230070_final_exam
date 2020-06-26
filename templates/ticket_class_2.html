@@ -1,0 +1,93 @@
+<!--templates/ticket_class_2.html-->
+<!doctype html>
+<html>
+<head>
+    <meta charset="utf-8">
+    <title>Django Highcharts Example</title>
+</head>
+<body>
+    <a href="{% url 'home' %}">Return to homepage</a>
+    <div id="container"></div>
+    <script src="https://code.highcharts.com/highcharts.src.js"></script>
+    <script>
+        Highcharts.chart('container', {
+    chart: {
+        zoomType: 'xy'
+    },
+    title: {
+        text: '좌석 등급에 따른 타이타닉 생존/비 생존 인원 및 생존율'
+    },
+    xAxis: [{
+      categories: {{ categories|safe }},
+        crosshair: true
+    }],
+    yAxis: [{ // Primary yAxis
+        labels: {
+            format: '{value}%',
+            style: {
+                color: Highcharts.getOptions().colors[1]
+            }
+        },
+        title: {
+            text: '생존율',
+            style: {
+                color: Highcharts.getOptions().colors[1]
+            }
+        }
+    }, { // Secondary yAxis
+        title: {
+            text: '인원',
+            style: {
+                color: Highcharts.getOptions().colors[0]
+            }
+        },
+        labels: {
+            format: '{value} 명',
+            style: {
+                color: Highcharts.getOptions().colors[0]
+            }
+        },
+        opposite: true
+    }],
+    tooltip: {
+        shared: true
+    },
+    legend: {
+        layout: 'vertical',
+        align: 'left',
+        x: 120,
+        verticalAlign: 'top',
+        y: 100,
+        floating: true,
+        backgroundColor:
+            Highcharts.defaultOptions.legend.backgroundColor || // theme
+            'rgba(255,255,255,0.25)'
+    },
+    series: [{
+        name: 'Survived',
+        type: 'column',
+        yAxis: 1,
+        data: {{ survived_series}},
+        color:'green'
+
+    },
+        {
+        name: 'Not Survived',
+        type: 'column',
+        yAxis: 1,
+        data: {{ not_survived_series}},
+            color :'red'
+
+    },
+        {
+        name: '생존율',
+            tooltip: {
+                valueDecimals: 2
+            },
+        type: 'spline',
+        data: {{ people }}
+    }]
+});
+    </script>
+</body>
+</html>
